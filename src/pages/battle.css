@@ -1,3 +1,5 @@
+
+
 .content{
     display: flex;
     width:50%;
@@ -101,7 +103,6 @@ h3{
 .submit{
     margin: 16px 0;
     text-align: center;
-
 }
 
 .submit button{

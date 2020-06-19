@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import styles from "./result.css";
+import { parse } from "qs";
 
 class Result extends React.Component {
   constructor() {
@@ -14,7 +15,8 @@ class Result extends React.Component {
   }
 
   componentDidMount() {
-    const { player1, player2 } = this.props.location.query;
+    const { location } = this.props;
+    const { player1, player2 } = parse(location.search.substring(1));
     const url1 = `https://api.github.com/users/${player1}`;
     const url2 = `https://api.github.com/users/${player2}`;
 

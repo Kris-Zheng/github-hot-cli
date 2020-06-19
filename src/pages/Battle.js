@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import "../../node_modules/font-awesome/css/font-awesome.min.css";
 import styles from "./battle.css";
 
@@ -15,6 +15,12 @@ class Battle extends React.Component {
       disabledplayer2: true,
     };
   }
+
+  onBattle = (parm1, parm2) => {
+    console.log(parm1);
+    console.log(parm2);
+    this.props.history.push(`/result?player1=${parm1}&player2=${parm2}`);
+  };
 
   handlePostleft = () => {
     this.setState({ showplayer1: true });
@@ -34,7 +40,6 @@ class Battle extends React.Component {
 
   onkeyupleft = (e) => {
     if (e.keyCode === 13) {
-      console.log(1);
       this.handlePostleft();
     }
   };
@@ -249,14 +254,11 @@ class Battle extends React.Component {
                 : { display: "none" }
             }
           >
-            <button type="button">
-              <Link
-                to={{ pathname: "/result", query: { player1, player2 } }}
-                style={{ textDecoration: "none", color: "rgba(0,0,0,0.65)" }}
-              >
-                Battle
-              </Link>
-            </button>
+            <input
+              type="button"
+              onClick={() => this.onBattle(player1, player2)}
+              value="battle"
+            />
           </div>
         </form>
       </main>
