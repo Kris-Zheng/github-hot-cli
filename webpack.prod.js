@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const webpack = require('webpack');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');  
@@ -65,7 +65,7 @@ module.exports = function (env, argv) {
                 filename: '[name].[contenthash:8].css',
                 chunkFilename: '[name].[contenthash:8].chunk.css',
             }),
-            new BundleAnalyzerPlugin()
+            // new BundleAnalyzerPlugin()
         ],
 
         resolve: {
