@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import axios from "axios";
-import styles from "./header.css";
+import styles from "@/components/header.less";
 
 class Header extends React.Component {
   constructor(props) {

@@ -3,7 +3,7 @@ import React from "react";
 import axios from "axios";
 import Body from "../components/card";
 import Header from "../components/header";
-import "./popular.css";
+import styles from "@/pages/popular.less";
 import { hot } from "react-hot-loader/root";
 
 class App extends React.Component {
@@ -50,7 +50,7 @@ class App extends React.Component {
   render() {
     const { type, currentType } = this.state;
     return (
-      <div className="app">
+      <div className={styles.app}>
         <Header callback={this.handleHeaderCallback} />
         <Body
           type={type}

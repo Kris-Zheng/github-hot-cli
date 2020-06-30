@@ -1,7 +1,5 @@
 import React from "react";
-// import { Link } from "react-router-dom";
-import "../../node_modules/font-awesome/css/font-awesome.min.css";
-import styles from "./battle.css";
+import styles from "@/pages/battle.less";
 
 class Battle extends React.Component {
   constructor() {

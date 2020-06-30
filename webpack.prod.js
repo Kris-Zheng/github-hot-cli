@@ -25,7 +25,7 @@ module.exports = function (env, argv) {
             rules: [
                 {
                     test: /\.js$/,
-                    use: 'babel-loader'
+                    use: 'babel-loader',
                 },
                 {
                     test: /\.css$/,
@@ -53,6 +53,16 @@ module.exports = function (env, argv) {
                 {
                     test: /\.(woff|woff2|eot|ttf|otf)$/,
                     use: ["file-loader"]
+                },
+                {
+                    test: /\.less$/,
+                    include: [path.resolve(__dirname, 'src/styles'), /node_modules/],
+                    use: ["style-loader", "css-loader", "less-loader"]
+                },
+                {
+                    test: /\.less$/,
+                    exclude: [path.resolve(__dirname, 'src/styles'), /node_modules/],
+                    use: ["style-loader", "css-loader?modules", "less-loader"]
                 },
             ]
         },

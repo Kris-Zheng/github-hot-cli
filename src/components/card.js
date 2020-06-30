@@ -1,6 +1,5 @@
 import React from "react";
-import "../../node_modules/font-awesome/css/font-awesome.min.css";
-import styles from "./card.css";
+import styles from "@/components/card.less";
 
 class Body extends React.Component {
   constructor(props) {
