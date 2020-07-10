@@ -15,8 +15,6 @@ class Battle extends React.Component {
   }
 
   onBattle = (parm1, parm2) => {
-    console.log(parm1);
-    console.log(parm2);
     this.props.history.push(`/result?player1=${parm1}&player2=${parm2}`);
   };
 

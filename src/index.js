@@ -9,7 +9,7 @@ import "@/styles/index.less";
 // import Result from "@/components/result";
 import 'normalize.css';
 
-const App = lazy(() => import('@/pages/Popular'));
+const Popular = lazy(() => import('@/pages/Popular'));
 const Battle = lazy(() => import('@/pages/Battle'));
 const Result = lazy(() => import('@/components/result'));
 
@@ -18,9 +18,9 @@ ReactDOM.render(
     <Nav />
     <Switch>
       <Suspense fallback={<div>Loading...</div>}>
-        <Route exact path="/" component={App} />
-        <Route path="/battle" component={Battle} />
-        <Route path="/result" component={Result} />
+        <Route exact path="/" component={Popular} />
+        <Route exact path="/battle" component={Battle} />
+        <Route exact path="/result" component={Result} />
       </Suspense>
     </Switch>
   </HashRouter>,

@@ -43,7 +43,7 @@ class Result extends React.Component {
               style={{
                 display:
                   player1value.public_repos >= 0 &&
-                  player1value.public_repos !== player2value.public_repos
+                    player1value.public_repos !== player2value.public_repos
                     ? "block"
                     : "none",
               }}
@@ -51,8 +51,8 @@ class Result extends React.Component {
               {player1value.public_repos > player2value.public_repos ? (
                 <h2 style={{ textAlign: "center" }}>Winner</h2>
               ) : (
-                <h2 style={{ textAlign: "center" }}>Loser</h2>
-              )}
+                  <h2 style={{ textAlign: "center" }}>Loser</h2>
+                )}
             </div>
             <div>
               <img
@@ -84,7 +84,7 @@ class Result extends React.Component {
               style={{
                 display:
                   player2value.public_repos >= 0 &&
-                  player2value.public_repos !== player1value.public_repos
+                    player2value.public_repos !== player1value.public_repos
                     ? "block"
                     : "none",
               }}
@@ -92,8 +92,8 @@ class Result extends React.Component {
               {player2value.public_repos > player1value.public_repos ? (
                 <h2 style={{ textAlign: "center" }}>Winner</h2>
               ) : (
-                <h2 style={{ textAlign: "center" }}>Loser</h2>
-              )}
+                  <h2 style={{ textAlign: "center" }}>Loser</h2>
+                )}
             </div>
             <div>
               <img
