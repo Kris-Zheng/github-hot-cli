@@ -2,15 +2,15 @@ import React from "react";
 
 const styles = {
   center: {
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 };
 
 class Loading extends React.Component {
   render() {
     return (
       <div style={styles.center}>
-        <i className="fa fa-spinner fa-spin"></i>
+        <i className="fa fa-spinner fa-spin" />
         <span>Loading...</span>
       </div>
     );

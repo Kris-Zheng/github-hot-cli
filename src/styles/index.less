@@ -1,21 +1,58 @@
-@import './variable.less';
-@import  'https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
-
-a{
-    text-decoration: none;
-    color: @text-color;
+@import "https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+@import "./variable";
+a {
+  text-decoration: none;
+  color: @text-color;
+}
+a:hover {
+  color: @primary-color;
 }
 
-a:hover{
-    color: @primary-color;
+a:focus {
+  color: @primary-color;
 }
 
-a.active{
-    color: @primary-color;
+a.active {
+  color: @primary-color;
 }
 
-button:hover{
-    color: @primary-color;
-    cursor: pointer;
+button {
+  padding: 16px 32px;
+  border-radius: 4px;
 }
 
+button:hover {
+  color: @primary-color;
+  cursor: pointer;
+}
+
+button[disabled] {
+  color: @disabled-color;
+}
+
+button:hover[disabled] {
+  color: @disabled-color;
+  cursor: default;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-primary {
+  color: @primary-color;
+}
+
+.text-danger {
+  color: @error-color;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
