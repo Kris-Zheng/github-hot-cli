@@ -3,7 +3,6 @@ import axios from "axios";
 import InfiniteScroll from "react-infinite-scroller";
 import { Card } from "antd";
 import Loading from "@/components/loading";
-import Menu from "@/components/menu";
 import styles from "@/components/card.less";
 
 class Nmsl extends React.Component {
@@ -20,7 +19,7 @@ class Nmsl extends React.Component {
   componentDidMount() {
     const query = window.location.search;
     if (query) {
-      const lan = query.replace("?query=stars:%3E1+language:", "");
+      const lan = query.replace("?stars:%3E1+language:", "");
       this.setState({ language: lan }, () => this.query());
     } else {
       const lan = "all";
@@ -94,17 +93,14 @@ class Nmsl extends React.Component {
     ));
 
     return (
-      <main>
-        <Menu />
-        <InfiniteScroll
-          initialLoad={false}
-          loadMore={() => this.query()}
-          hasMore={!loading}
-        >
-          <div className={styles.card}>{list}</div>
-          {loading && <Loading />}
-        </InfiniteScroll>
-      </main>
+      <InfiniteScroll
+        initialLoad={false}
+        loadMore={() => this.query()}
+        hasMore={!loading}
+      >
+        <div className={styles.card}>{list}</div>
+        {loading && <Loading />}
+      </InfiniteScroll>
     );
   }
 }
