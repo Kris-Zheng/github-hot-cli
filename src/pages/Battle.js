@@ -123,7 +123,6 @@ class Battle extends React.Component {
                   placeholder="github username"
                   onChange={this.handleChangeleft.bind(this)}
                   onKeyUp={this.onkeyupleft}
-                  defaultValue={this.state.player1}
                 />
                 <button
                   type="button"
@@ -189,7 +188,6 @@ class Battle extends React.Component {
                   placeholder="github username"
                   onChange={this.handleChangeright.bind(this)}
                   onKeyUp={this.onkeyupright}
-                  defaultValue={this.state.player2}
                 />
                 <button
                   type="button"

@@ -60,6 +60,7 @@ class Nmsl extends React.Component {
         <div className={styles.avatar}>
           <img
             src={item.owner.avatar_url}
+            onError='this.src="http://yongqing.is-programmer.com/posts/default.gif"'
             alt={item.name}
             style={{ width: "50%" }}
           />
