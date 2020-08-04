@@ -1,3 +1,4 @@
+// eslint-disable
 import React from "react";
 import axios from "axios";
 import Card from "@/components/Card";
@@ -6,12 +7,15 @@ import Loading from "@/components/Loading";
 import styles from "@/pages/popular.less";
 
 class Popular extends React.Component {
-  state = {
-    lang: '',
-    items: [],
-    page: 1,
-    loading: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      lang: '',
+      items: [],
+      page: 1,
+      loading: false,
+    };
+  }
 
   componentDidMount() {
     const current = window.location.search.substr(1);
@@ -95,19 +99,21 @@ class Popular extends React.Component {
       </li>
     ));
 
-    return <>
-      <div className={styles.menu}>
-        {menu}
-      </div>
-      <InfiniteScroll
-        initialLoad={false}
-        loadMore={() => this.getApi(lang, false)}
-        hasMore={!loading}
-      >
-        <Card items={items} />
-        {loading && <Loading />}
-      </InfiniteScroll>
-    </>;
+    return (
+      <>
+        <div className={styles.menu}>
+          {menu}
+        </div>
+        <InfiniteScroll
+          initialLoad={false}
+          loadMore={() => this.getApi(lang, false)}
+          hasMore={!loading}
+        >
+          <Card items={items} />
+          {loading && <Loading />}
+        </InfiniteScroll>
+      </>
+    );
   }
 }
 
