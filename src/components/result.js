@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import styles from "@/components/result.less";
+import styles from "@/components/Result.less";
 import { parse } from "qs";
 
 class Result extends React.Component {

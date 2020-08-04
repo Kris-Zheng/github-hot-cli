@@ -1,66 +1,16 @@
 import React from "react";
-import axios from "axios";
-import InfiniteScroll from "react-infinite-scroller";
 import { Card } from "antd";
-import Loading from "@/components/loading";
-import styles from "@/components/card.less";
+import styles from "@/components/Card.less";
 
 class Nmsl extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      language: "stars:>1",
-      loading: false,
-      current: [],
-      page: 1,
-    };
-  }
-
-  componentDidMount() {
-    const query = window.location.search;
-    if (query) {
-      const lan = query.replace("?stars:%3E1+language:", "");
-      this.setState({ language: lan }, () => this.query());
-    } else {
-      const lan = "all";
-      this.setState({ language: lan });
-      this.query();
-    }
-  }
-
-  query = async () => {
-    const { language } = this.state;
-    const { page } = this.state;
-    const { current } = this.state;
-
-    const url = `https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories&page=${page}`;
-
-    this.setState({
-      loading: true,
-    });
-
-    try {
-      const res = await axios.get(url);
-      this.setState({
-        current: [...current, ...res.data.items],
-        page: page + 1,
-      });
-    } catch (e) {
-      console.log("error", e);
-    }
-    this.setState({ loading: false });
-  };
-
   render() {
-    const { loading, current } = this.state;
-
-    const list = current.map((item, key) => (
+    const { items } = this.props;
+    const list = (items || []).map((item, key) => (
       <Card key={key} className={styles.content}>
         <h2 style={{ textAlign: "center" }}>#{key + 1}</h2>
         <div className={styles.avatar}>
           <img
             src={item.owner.avatar_url}
-            onError='this.src="http://yongqing.is-programmer.com/posts/default.gif"'
             alt={item.name}
             style={{ width: "50%" }}
           />
@@ -94,14 +44,9 @@ class Nmsl extends React.Component {
     ));
 
     return (
-      <InfiniteScroll
-        initialLoad={false}
-        loadMore={() => this.query()}
-        hasMore={!loading}
-      >
-        <div className={styles.card}>{list}</div>
-        {loading && <Loading />}
-      </InfiniteScroll>
+      <div className={styles.card}>
+        {list}
+      </div>
     );
   }
 }
