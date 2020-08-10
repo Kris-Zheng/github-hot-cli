@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { request } from "@/utils/index";
 import styles from "@/components/Result.less";
 import { parse } from "qs";
 
@@ -14,27 +14,21 @@ class Result extends React.Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { location } = this.props;
     const { player1, player2 } = parse(location.search.substring(1));
     const url1 = `https://api.github.com/users/${player1}`;
     const url2 = `https://api.github.com/users/${player2}`;
 
-    axios.get(url1).then((res) => {
-      this.setState({
-        player1value: res.data,
-      });
-    });
-
-    axios.get(url2).then((res) => {
-      this.setState({
-        player2value: res.data,
-      });
-    });
+    const data1 = await request(url1);
+    const data2 = await request(url2);
+    this.setState({ player1value: data1 });
+    this.setState({ player2value: data2 });
   }
 
   render() {
     const { player1value, player2value } = this.state;
+    console.log("player1", player1value);
     return (
       <main>
         <div style={{ display: "flex", justifyContent: "center" }}>
@@ -43,7 +37,7 @@ class Result extends React.Component {
               style={{
                 display:
                   player1value.public_repos >= 0 &&
-                    player1value.public_repos !== player2value.public_repos
+                  player1value.public_repos !== player2value.public_repos
                     ? "block"
                     : "none",
               }}
@@ -51,8 +45,8 @@ class Result extends React.Component {
               {player1value.public_repos > player2value.public_repos ? (
                 <h2 style={{ textAlign: "center" }}>Winner</h2>
               ) : (
-                  <h2 style={{ textAlign: "center" }}>Loser</h2>
-                )}
+                <h2 style={{ textAlign: "center" }}>Loser</h2>
+              )}
             </div>
             <div>
               <img
@@ -84,7 +78,7 @@ class Result extends React.Component {
               style={{
                 display:
                   player2value.public_repos >= 0 &&
-                    player2value.public_repos !== player1value.public_repos
+                  player2value.public_repos !== player1value.public_repos
                     ? "block"
                     : "none",
               }}
@@ -92,8 +86,8 @@ class Result extends React.Component {
               {player2value.public_repos > player1value.public_repos ? (
                 <h2 style={{ textAlign: "center" }}>Winner</h2>
               ) : (
-                  <h2 style={{ textAlign: "center" }}>Loser</h2>
-                )}
+                <h2 style={{ textAlign: "center" }}>Loser</h2>
+              )}
             </div>
             <div>
               <img

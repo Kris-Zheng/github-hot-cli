@@ -9,8 +9,6 @@ class Battle extends React.Component {
       player2: "",
       showplayer1: false,
       showplayer2: false,
-      disabledplayer1: true,
-      disabledplayer2: true,
     };
   }
 
@@ -18,55 +16,47 @@ class Battle extends React.Component {
     this.props.history.push(`/result?player1=${parm1}&player2=${parm2}`);
   };
 
-  handlePostleft = () => {
-    this.setState({ showplayer1: true });
+  // 左
+  onChangeLeft = (e) => {
+    this.setState({ player1: e });
   };
 
-  handlePostright = () => {
-    this.setState({ showplayer2: true });
+  pressLeft = (e) => {
+    if (e.target.value.length !== 0 && e.keyCode === 13) {
+      this.setState({ showplayer1: true });
+    } else {
+      this.setState({ showplayer1: false });
+    }
+  };
+
+  handlePostLeft = () => {
+    this.setState({ showplayer1: true });
   };
 
   leftcancel = () => {
     this.setState({ showplayer1: false });
   };
 
+  // 右
+  onChangeRight = (e) => {
+    this.setState({ player2: e });
+  };
+
+  pressRight = (e) => {
+    if (e.target.value.length !== 0 && e.keyCode === 13) {
+      this.setState({ showplayer2: true });
+    } else {
+      this.setState({ showplayer2: false });
+    }
+  };
+
+  handlePostRight = () => {
+    this.setState({ showplayer2: true });
+  };
+
   rightcancel = () => {
     this.setState({ showplayer2: false });
   };
-
-  onkeyupleft = (e) => {
-    if (e.keyCode === 13) {
-      this.handlePostleft();
-    }
-  };
-
-  onkeyupright = (e) => {
-    if (e.keyCode === 13) {
-      this.handlePostright();
-    }
-  };
-
-  handleChangeleft(e) {
-    if (e.target.value === "") {
-      this.setState({ disabledplayer1: true });
-    } else {
-      this.setState({
-        player1: e.target.value,
-        disabledplayer1: false,
-      });
-    }
-  }
-
-  handleChangeright(e) {
-    if (e.target.value === "") {
-      this.setState({ disabledplayer2: true });
-    } else {
-      this.setState({
-        player2: e.target.value,
-        disabledplayer2: false,
-      });
-    }
-  }
 
   render() {
     const { showplayer1 } = this.state;
@@ -80,7 +70,6 @@ class Battle extends React.Component {
         <div className={styles.content}>
           <div className={styles.tag} style={{ flex: 4 }}>
             <div>Enter two Github:</div>
-
             <div>
               <i
                 className="fa fa-users"
@@ -119,15 +108,16 @@ class Battle extends React.Component {
                 <input
                   className={styles.player1input}
                   type="text"
-                  name="player1"
                   placeholder="github username"
-                  onChange={this.handleChangeleft.bind(this)}
-                  onKeyUp={this.onkeyupleft}
+                  onChange={(e) => {
+                    this.onChangeLeft(e.target.value);
+                  }}
+                  onKeyUp={this.pressLeft}
                 />
                 <button
                   type="button"
-                  onClick={this.handlePostleft}
-                  disabled={this.state.disabledplayer1}
+                  disabled={player1 === ""}
+                  onClick={this.handlePostLeft}
                 >
                   Submit
                 </button>
@@ -186,13 +176,13 @@ class Battle extends React.Component {
                   type="text"
                   name="player2"
                   placeholder="github username"
-                  onChange={this.handleChangeright.bind(this)}
-                  onKeyUp={this.onkeyupright}
+                  onChange={(e) => this.onChangeRight(e.target.value)}
+                  onKeyUp={this.pressRight}
                 />
                 <button
                   type="button"
-                  onClick={this.handlePostright}
-                  disabled={this.state.disabledplayer2}
+                  onClick={this.handlePostRight}
+                  disabled={player2 === ""}
                 >
                   Submit
                 </button>

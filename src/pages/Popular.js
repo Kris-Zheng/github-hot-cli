@@ -1,13 +1,14 @@
+/* eslint-disable */
 import React from "react";
-import axios from "axios";
 import Card from "@/components/Card";
 import InfiniteScroll from "react-infinite-scroller";
 import Loading from "@/components/Loading";
+import { request } from "@/utils/index";
 import styles from "@/pages/popular.less";
 
 class Popular extends React.Component {
   state = {
-    lang: '',
+    lang: "",
     items: [],
     page: 1,
     loading: false,
@@ -29,8 +30,8 @@ class Popular extends React.Component {
 
     const currentpage = clear ? 1 : page;
 
-    console.log('current page', currentpage);
-    console.log('page in state => ',this.state.page)
+    console.log("current page", currentpage);
+    console.log("page in state => ", this.state.page);
 
     const url = `https://api.github.com/search/repositories?q=stars:>1+language:${lang}&sort=stars&order=desc&type=Repositories&page=${currentpage}`;
 
@@ -39,21 +40,18 @@ class Popular extends React.Component {
     });
 
     if (clear) {
-      this.setState({ items: []});
+      this.setState({ items: [] });
     }
 
-    try {
-      const res = await axios.get(url);
-      this.setState({
-        items: clear ? res.data.items : [...items, ...res.data.items],
-        page: currentpage+1,
-      });
-    } catch (e) {
-      console.log("error", e);
-    }
+    const res = await request(url);
+
+    this.setState({
+      items: clear ? res.items : [...items, ...res.items],
+      page: currentpage + 1,
+    });
 
     this.setState({ loading: false });
-  }
+  };
 
   render() {
     const current = window.location.search.substr(1);
@@ -95,20 +93,20 @@ class Popular extends React.Component {
       </li>
     ));
 
-    return <>
-      <div className={styles.menu}>
-        {menu}
-      </div>
-      <InfiniteScroll
-        initialLoad={false}
-        loadMore={() => this.getApi(lang, false)}
-        hasMore={!loading}
-      >
-        <Card items={items} />
-        {loading && <Loading />}
-      </InfiniteScroll>
-    </>
-  };
+    return (
+      <>
+        <div className={styles.menu}>{menu}</div>
+        <InfiniteScroll
+          initialLoad={false}
+          loadMore={() => this.getApi(lang, false)}
+          hasMore={!loading}
+        >
+          <Card items={items} />
+          {loading && <Loading />}
+        </InfiniteScroll>
+      </>
+    );
+  }
 }
 
 export default Popular;
