@@ -5,6 +5,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import Loading from "@/components/Loading";
 import { request } from "@/utils/index";
 import styles from "@/pages/popular.less";
+import { withRouter } from "react-router-dom";
 
 class Popular extends React.Component {
   state = {
@@ -15,12 +16,14 @@ class Popular extends React.Component {
   };
 
   componentDidMount() {
-    const current = window.location.search.substr(1);
+    const { location: search } = this.props;
+    const current = search.search.substr(1);
     this.getApi(current);
   }
 
   onClick = async (query) => {
-    window.history.pushState({}, 0, `?${query}`);
+    const { history } = this.props;
+    history.push({ pathname: "/", search: query });
     this.setState({ lang: query });
     await this.getApi(query, true);
   };
@@ -54,7 +57,6 @@ class Popular extends React.Component {
   };
 
   render() {
-    const current = window.location.search.substr(1);
     const { items, lang } = this.state;
     const { loading } = this.state;
 
@@ -86,7 +88,7 @@ class Popular extends React.Component {
         <a
           role="link"
           onClick={() => this.onClick(item.query)}
-          style={current === item.query ? { color: "#1890ff" } : {}}
+          style={lang === item.query ? { color: "#1890ff" } : {}}
         >
           {item.title}
         </a>
@@ -109,4 +111,4 @@ class Popular extends React.Component {
   }
 }
 
-export default Popular;
+export default withRouter(Popular);
