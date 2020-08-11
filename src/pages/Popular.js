@@ -13,18 +13,20 @@ class Popular extends React.Component {
     items: [],
     page: 1,
     loading: false,
+    current: "",
   };
 
   componentDidMount() {
     const { location: search } = this.props;
     const current = search.search.substr(1);
+    this.setState({ current });
     this.getApi(current);
   }
 
   onClick = async (query) => {
     const { history } = this.props;
     history.push({ pathname: "/", search: query });
-    this.setState({ lang: query });
+    this.setState({ lang: query, current: query });
     await this.getApi(query, true);
   };
 
@@ -57,7 +59,7 @@ class Popular extends React.Component {
   };
 
   render() {
-    const { items, lang } = this.state;
+    const { items, lang, current } = this.state;
     const { loading } = this.state;
 
     const links = [
@@ -88,7 +90,7 @@ class Popular extends React.Component {
         <a
           role="link"
           onClick={() => this.onClick(item.query)}
-          style={lang === item.query ? { color: "#1890ff" } : {}}
+          style={current === item.query ? { color: "#1890ff" } : {}}
         >
           {item.title}
         </a>
