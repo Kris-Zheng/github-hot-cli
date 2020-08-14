@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import { Link } from "react-router-dom";
-import { request } from "@/utils/index";
+import { getResult } from "@/utils/index";
 import styles from "@/components/Result.less";
 import { parse } from "qs";
 
@@ -17,18 +17,15 @@ class Result extends React.Component {
   async componentDidMount() {
     const { location } = this.props;
     const { player1, player2 } = parse(location.search.substring(1));
-    const url1 = `https://api.github.com/users/${player1}`;
-    const url2 = `https://api.github.com/users/${player2}`;
 
-    const data1 = await request(url1);
-    const data2 = await request(url2);
-    this.setState({ player1value: data1 });
-    this.setState({ player2value: data2 });
+    const data1 = await getResult(player1);
+    const data2 = await getResult(player2);
+    this.setState({ player1value: data1, player2value: data2 });
   }
 
   render() {
     const { player1value, player2value } = this.state;
-    console.log("player1", player1value);
+
     return (
       <main>
         <div style={{ display: "flex", justifyContent: "center" }}>

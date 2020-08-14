@@ -1,4 +1,6 @@
 import React from "react";
+import { getResult } from "@/utils/index";
+import { message } from "antd";
 import styles from "@/pages/battle.less";
 
 class Battle extends React.Component {
@@ -9,6 +11,8 @@ class Battle extends React.Component {
       player2: "",
       showplayer1: false,
       showplayer2: false,
+      player1Img: "",
+      player2Img: "",
     };
   }
 
@@ -21,15 +25,26 @@ class Battle extends React.Component {
     this.setState({ player1: e });
   };
 
-  pressLeft = (e) => {
+  pressLeft = async (e) => {
     if (e.target.value.length !== 0 && e.keyCode === 13) {
+      const { player1 } = this.state;
+      const result = await getResult(player1).catch((error) => {
+        console.log("123", error);
+        message.warning("Not found");
+      });
+
+      this.setState({ player1Img: result.avatar_url });
       this.setState({ showplayer1: true });
-    } else {
-      this.setState({ showplayer1: false });
     }
   };
 
-  handlePostLeft = () => {
+  handlePostLeft = async () => {
+    const { player1 } = this.state;
+    const result = await getResult(player1).catch((error) => {
+      console.log("123", error);
+      message.warning("Not found");
+    });
+    this.setState({ player1Img: result.avatar_url });
     this.setState({ showplayer1: true });
   };
 
@@ -42,15 +57,28 @@ class Battle extends React.Component {
     this.setState({ player2: e });
   };
 
-  pressRight = (e) => {
+  pressRight = async (e) => {
     if (e.target.value.length !== 0 && e.keyCode === 13) {
+      const { player2 } = this.state;
+
+      const result = await getResult(player2).catch((error) => {
+        console.log("213", error);
+        message.warning("Not found");
+      });
+
+      this.setState({ player2Img: result.avatar_url });
       this.setState({ showplayer2: true });
-    } else {
-      this.setState({ showplayer2: false });
     }
   };
 
-  handlePostRight = () => {
+  handlePostRight = async () => {
+    const { player2 } = this.state;
+    const result = await getResult(player2).catch((error) => {
+      console.log(error);
+      message.warning("Not found");
+    });
+
+    this.setState({ player2Img: result.avatar_url });
     this.setState({ showplayer2: true });
   };
 
@@ -61,8 +89,8 @@ class Battle extends React.Component {
   render() {
     const { showplayer1 } = this.state;
     const { showplayer2 } = this.state;
-    const { player1 } = this.state;
-    const { player2 } = this.state;
+    const { player1, player1Img } = this.state;
+    const { player2, player2Img } = this.state;
 
     return (
       <main>
@@ -138,11 +166,7 @@ class Battle extends React.Component {
                   <div
                     style={{ display: "flex", flex: 1, alignItems: "center" }}
                   >
-                    <img
-                      alt="player1"
-                      src={`https://github.com/${player1}.png?size=200`}
-                      width="128"
-                    />
+                    <img alt="player1" src={player1Img} width="128" />
                     <span style={{ fontSize: 32, color: "#1890ff" }}>
                       {player1}
                     </span>
@@ -176,7 +200,9 @@ class Battle extends React.Component {
                   type="text"
                   name="player2"
                   placeholder="github username"
-                  onChange={(e) => this.onChangeRight(e.target.value)}
+                  onChange={(e) => {
+                    this.onChangeRight(e.target.value);
+                  }}
                   onKeyUp={this.pressRight}
                 />
                 <button
@@ -203,11 +229,7 @@ class Battle extends React.Component {
                   <div
                     style={{ display: "flex", flex: 1, alignItems: "center" }}
                   >
-                    <img
-                      alt="player2"
-                      src={`https://github.com/${player2}.png?size=200`}
-                      width="128"
-                    />
+                    <img alt="player2" src={player2Img} width="128" />
                     <span style={{ fontSize: 32, color: "#1890ff" }}>
                       {player2}
                     </span>

@@ -2,7 +2,6 @@ import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Route, Switch } from "react-router-dom";
 import Nav from "@/components/Nav";
-import "@/styles/index.less";
 
 const Popular = lazy(() => import("@/pages/Popular"));
 const Battle = lazy(() => import("@/pages/Battle"));

@@ -3,7 +3,7 @@ import React from "react";
 import Card from "@/components/Card";
 import InfiniteScroll from "react-infinite-scroller";
 import Loading from "@/components/Loading";
-import { request } from "@/utils/index";
+import { getData } from "@/utils/index";
 import styles from "@/pages/popular.less";
 import { withRouter } from "react-router-dom";
 
@@ -16,11 +16,15 @@ class Popular extends React.Component {
     current: "",
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { location: search } = this.props;
-    const current = search.search.substr(1);
-    this.setState({ current });
-    this.getApi(current);
+
+    const query = search.search.substr(1);
+    this.setState({ current: query });
+
+    const current = search.search.replace("?language=", "");
+
+    await this.getApi(current);
   }
 
   onClick = async (query) => {
@@ -33,12 +37,12 @@ class Popular extends React.Component {
   getApi = async (lang, clear = false) => {
     const { items, page } = this.state;
 
+    const language = lang.replace("language=", "");
+
     const currentpage = clear ? 1 : page;
 
-    console.log("current page", currentpage);
-    console.log("page in state => ", this.state.page);
-
-    const url = `https://api.github.com/search/repositories?q=stars:>1+language:${lang}&sort=stars&order=desc&type=Repositories&page=${currentpage}`;
+    // console.log("current page", currentpage);
+    // console.log("page in state => ", this.state.page);
 
     this.setState({
       loading: true,
@@ -48,14 +52,13 @@ class Popular extends React.Component {
       this.setState({ items: [] });
     }
 
-    const res = await request(url);
+    const res = await getData(language, currentpage);
 
     this.setState({
       items: clear ? res.items : [...items, ...res.items],
       page: currentpage + 1,
+      loading: false,
     });
-
-    this.setState({ loading: false });
   };
 
   render() {
@@ -65,23 +68,23 @@ class Popular extends React.Component {
     const links = [
       {
         title: "All",
-        query: "all",
+        query: "language=all",
       },
       {
         title: "JavaScript",
-        query: "javascript",
+        query: "language=javascript",
       },
       {
         title: "Ruby",
-        query: "ruby",
+        query: "language=ruby",
       },
       {
         title: "Java",
-        query: "java",
+        query: "language=java",
       },
       {
         title: "CSS",
-        query: "css",
+        query: "language=css",
       },
     ];
 

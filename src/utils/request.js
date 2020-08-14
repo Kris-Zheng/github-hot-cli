@@ -1,17 +1,26 @@
 import axios from "axios";
 
-const fetchData = (url) => {
-  return new Promise((resolve) => {
-    const promise = axios.get(url);
+// const request = (url) => {
+//   return new Promise((resolve,reject) => {
+//     const promise = axios.get(url);
+//     promise.then((response) => {
+//       resolve(response.data);
+//     });
+//     promise.catch((error) => {
+//       reject(error)
+//     });
+//   });
+// };
 
-    promise.then((response) => {
-      resolve(response.data);
-    });
-    promise.catch((error) => {
-      console.log("error", error);
-      alert("API请求发生错误", error);
-    });
-  });
-};
+const instance = axios.create();
 
-export default fetchData;
+instance.interceptors.response.use(
+  (response) => {
+    return response.data;
+  },
+  (error) => {
+    throw error.response;
+  }
+);
+
+export default instance;
