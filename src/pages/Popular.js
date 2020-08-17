@@ -37,9 +37,7 @@ class Popular extends React.Component {
 
   getApi = async (lang, clear = false) => {
     const { items, page } = this.state;
-
     const language = lang.replace("language=", "");
-
     const currentpage = clear ? 1 : page;
 
     // console.log("current page", currentpage);
@@ -56,6 +54,7 @@ class Popular extends React.Component {
     const res = await getData(language, currentpage).catch((error) => {
       console.log(error);
       message.info("请求出错");
+      this.setState({ loading: false, items: items });
     });
 
     this.setState({
