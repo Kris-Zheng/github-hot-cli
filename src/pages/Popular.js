@@ -55,6 +55,7 @@ class Popular extends React.Component {
       console.log(error);
       message.info("请求出错");
       this.setState({ loading: false, items: items });
+      document.documentElement.scrollTop -= 100;
     });
 
     this.setState({
