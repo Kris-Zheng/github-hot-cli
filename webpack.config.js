@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require('webpack');
 
-module.exports = function (env, argv) {
+module.exports = function config(env, argv) {
     const isEnvDevelopment = argv.mode === "development" || !argv.mode;
     const isEnvProduction = argv.mode === "production";
     return {
@@ -27,12 +27,12 @@ module.exports = function (env, argv) {
                     use: 'babel-loader',
                 },
                 {
-                    test: /\.css$/,
-                    use: [
-                        'style-loader',
-                        'css-loader?modules'
-                    ]
-                },
+                  test: /\.css$/,
+                  use: [
+                      'style-loader',
+                      'css-loader'
+                  ]
+              },
                 {
                     test: /\.(woff|woff2|eot|ttf|otf)$/,
                     use: ["file-loader"]

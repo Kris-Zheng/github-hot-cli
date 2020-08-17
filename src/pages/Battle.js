@@ -30,7 +30,7 @@ class Battle extends React.Component {
       const { player1 } = this.state;
       const result = await getResult(player1).catch((error) => {
         console.log("123", error);
-        message.warning("Not found");
+        message.warning("请求出错");
       });
 
       this.setState({ player1Img: result.avatar_url });
@@ -42,7 +42,7 @@ class Battle extends React.Component {
     const { player1 } = this.state;
     const result = await getResult(player1).catch((error) => {
       console.log("123", error);
-      message.warning("Not found");
+      message.warning("请求出错");
     });
     this.setState({ player1Img: result.avatar_url });
     this.setState({ showplayer1: true });
@@ -63,7 +63,7 @@ class Battle extends React.Component {
 
       const result = await getResult(player2).catch((error) => {
         console.log("213", error);
-        message.warning("Not found");
+        message.warning("请求出错");
       });
 
       this.setState({ player2Img: result.avatar_url });
@@ -75,7 +75,7 @@ class Battle extends React.Component {
     const { player2 } = this.state;
     const result = await getResult(player2).catch((error) => {
       console.log(error);
-      message.warning("Not found");
+      message.warning("请求出错");
     });
 
     this.setState({ player2Img: result.avatar_url });

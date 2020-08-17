@@ -6,6 +6,7 @@ import Loading from "@/components/Loading";
 import { getData } from "@/utils/index";
 import styles from "@/pages/popular.less";
 import { withRouter } from "react-router-dom";
+import { message } from "antd";
 
 class Popular extends React.Component {
   state = {
@@ -52,7 +53,10 @@ class Popular extends React.Component {
       this.setState({ items: [] });
     }
 
-    const res = await getData(language, currentpage);
+    const res = await getData(language, currentpage).catch((error) => {
+      console.log(error);
+      message.info("请求出错");
+    });
 
     this.setState({
       items: clear ? res.items : [...items, ...res.items],
@@ -93,7 +97,9 @@ class Popular extends React.Component {
         <a
           role="link"
           onClick={() => this.onClick(item.query)}
-          style={current === item.query ? { color: "#1890ff" } : {}}
+          style={
+            current === item.query ? { color: "#1890ff" } : { color: "black" }
+          }
         >
           {item.title}
         </a>
