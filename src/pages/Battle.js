@@ -1,6 +1,7 @@
+/* eslint-disable */
 import React from "react";
 import { getResult } from "@/utils/index";
-import { message } from "antd";
+import { message, Input, Button, Alert } from "antd";
 import styles from "@/pages/battle.less";
 
 class Battle extends React.Component {
@@ -13,6 +14,9 @@ class Battle extends React.Component {
       showplayer2: false,
       player1Img: "",
       player2Img: "",
+      loadingLeft: false,
+      loadingRight: false,
+      error: null,
     };
   }
 
@@ -28,28 +32,36 @@ class Battle extends React.Component {
   pressLeft = async (e) => {
     if (e.target.value.length !== 0 && e.keyCode === 13) {
       const { player1 } = this.state;
+      this.setState({ loadingLeft: true });
       const result = await getResult(player1).catch((error) => {
-        console.log("123", error);
-        message.warning("请求出错");
+        this.setState({ loadingLeft: false, error: error.data.message });
       });
-
-      this.setState({ player1Img: result.avatar_url });
-      this.setState({ showplayer1: true });
+      this.setState({
+        player1Img: result.avatar_url,
+        showplayer1: true,
+        loadingLeft: false,
+        error: null,
+      });
     }
   };
 
   handlePostLeft = async () => {
     const { player1 } = this.state;
+    this.setState({ loadingLeft: true });
     const result = await getResult(player1).catch((error) => {
       console.log("123", error);
-      message.warning("请求出错");
+      this.setState({ loadingLeft: false, error: error.data.message });
     });
-    this.setState({ player1Img: result.avatar_url });
-    this.setState({ showplayer1: true });
+    this.setState({
+      player1Img: result.avatar_url,
+      showplayer1: true,
+      loadingLeft: false,
+      error: null,
+    });
   };
 
   leftcancel = () => {
-    this.setState({ showplayer1: false });
+    this.setState({ showplayer1: false, loadingLeft: false });
   };
 
   // 右
@@ -60,30 +72,35 @@ class Battle extends React.Component {
   pressRight = async (e) => {
     if (e.target.value.length !== 0 && e.keyCode === 13) {
       const { player2 } = this.state;
-
+      this.setState({ loadingRight: true });
       const result = await getResult(player2).catch((error) => {
-        console.log("213", error);
-        message.warning("请求出错");
+        this.setState({ loadingRight: false, error: error.data.message });
       });
-
-      this.setState({ player2Img: result.avatar_url });
-      this.setState({ showplayer2: true });
+      this.setState({
+        player2Img: result.avatar_url,
+        showplayer2: true,
+        loadingRight: false,
+        error: null,
+      });
     }
   };
 
   handlePostRight = async () => {
     const { player2 } = this.state;
+    this.setState({ loadingRight: true });
     const result = await getResult(player2).catch((error) => {
-      console.log(error);
-      message.warning("请求出错");
+      this.setState({ loadingRight: false, error: error.data.message });
     });
-
-    this.setState({ player2Img: result.avatar_url });
-    this.setState({ showplayer2: true });
+    this.setState({
+      layer2Img: result.avatar_url,
+      showplayer2: true,
+      loadingRight: false,
+      error: null,
+    });
   };
 
   rightcancel = () => {
-    this.setState({ showplayer2: false });
+    this.setState({ showplayer2: false, loadingRight: false });
   };
 
   render() {
@@ -91,9 +108,20 @@ class Battle extends React.Component {
     const { showplayer2 } = this.state;
     const { player1, player1Img } = this.state;
     const { player2, player2Img } = this.state;
+    const { loadingLeft, loadingRight } = this.state;
+    const { error } = this.state;
 
     return (
       <main>
+        {error && (
+          <Alert
+            message="Warning"
+            description={error}
+            type="warning"
+            showIcon
+            closable
+          />
+        )}
         <h2 style={{ textAlign: "center" }}>Instructions</h2>
         <div className={styles.content}>
           <div className={styles.tag} style={{ flex: 4 }}>
@@ -133,7 +161,7 @@ class Battle extends React.Component {
               <div
                 style={showplayer1 ? { display: "none" } : { display: "flex" }}
               >
-                <input
+                <Input
                   className={styles.player1input}
                   type="text"
                   placeholder="github username"
@@ -142,13 +170,14 @@ class Battle extends React.Component {
                   }}
                   onKeyUp={this.pressLeft}
                 />
-                <button
-                  type="button"
+                <Button
+                  type="primary"
                   disabled={player1 === ""}
                   onClick={this.handlePostLeft}
+                  loading={loadingLeft}
                 >
                   Submit
-                </button>
+                </Button>
               </div>
 
               {/* 变更样式 */}
@@ -195,23 +224,23 @@ class Battle extends React.Component {
               <div
                 style={showplayer2 ? { display: "none" } : { display: "flex" }}
               >
-                <input
+                <Input
                   className={styles.player2input}
                   type="text"
-                  name="player2"
                   placeholder="github username"
                   onChange={(e) => {
                     this.onChangeRight(e.target.value);
                   }}
                   onKeyUp={this.pressRight}
                 />
-                <button
-                  type="button"
-                  onClick={this.handlePostRight}
+                <Button
+                  type="primary"
                   disabled={player2 === ""}
+                  onClick={this.handlePostRight}
+                  loading={loadingRight}
                 >
                   Submit
-                </button>
+                </Button>
               </div>
 
               {/* 变更样式 */}

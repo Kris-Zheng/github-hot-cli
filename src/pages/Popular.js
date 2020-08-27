@@ -53,7 +53,7 @@ class Popular extends React.Component {
 
     const res = await getData(language, currentpage).catch((error) => {
       console.log(error);
-      message.info("请求出错");
+      message.warning(error.data.message);
       this.setState({ loading: false, items: items });
       document.documentElement.scrollTop -= 100;
     });
@@ -112,7 +112,7 @@ class Popular extends React.Component {
         <InfiniteScroll
           initialLoad={false}
           loadMore={() => this.getApi(lang, false)}
-          hasMore={!loading}
+          hasMore={loading}
         >
           <Card items={items} />
           {loading && <Loading />}
