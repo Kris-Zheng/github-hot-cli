@@ -6,7 +6,7 @@ import Loading from "@/components/Loading";
 import { getData } from "@/utils/index";
 import styles from "@/pages/popular.less";
 import { withRouter } from "react-router-dom";
-import { message } from "antd";
+import { Alert } from "antd";
 
 class Popular extends React.Component {
   state = {
@@ -15,6 +15,7 @@ class Popular extends React.Component {
     page: 1,
     loading: false,
     current: "",
+    error: null,
   };
 
   async componentDidMount() {
@@ -45,6 +46,7 @@ class Popular extends React.Component {
 
     this.setState({
       loading: true,
+      error: null,
     });
 
     if (clear) {
@@ -52,10 +54,11 @@ class Popular extends React.Component {
     }
 
     const res = await getData(language, currentpage).catch((error) => {
-      console.log(error);
-      message.warning(error.data.message);
-      this.setState({ loading: false, items: items });
-      document.documentElement.scrollTop -= 100;
+      this.setState({
+        loading: false,
+        items: items,
+        error: error.data.message,
+      });
     });
 
     this.setState({
@@ -67,7 +70,7 @@ class Popular extends React.Component {
 
   render() {
     const { items, lang, current } = this.state;
-    const { loading } = this.state;
+    const { loading, error } = this.state;
 
     const links = [
       {
@@ -108,11 +111,20 @@ class Popular extends React.Component {
 
     return (
       <>
+        {error && (
+          <Alert
+            message="Warning"
+            description={error}
+            type="warning"
+            showIcon
+            closable
+          />
+        )}
         <div className={styles.menu}>{menu}</div>
         <InfiniteScroll
           initialLoad={false}
           loadMore={() => this.getApi(lang, false)}
-          hasMore={loading}
+          hasMore={!loading && !error}
         >
           <Card items={items} />
           {loading && <Loading />}
