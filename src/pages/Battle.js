@@ -40,7 +40,6 @@ class Battle extends React.Component {
         player1Img: result.avatar_url,
         showplayer1: true,
         loadingLeft: false,
-        error: null,
       });
     }
   };
@@ -56,7 +55,6 @@ class Battle extends React.Component {
       player1Img: result.avatar_url,
       showplayer1: true,
       loadingLeft: false,
-      error: null,
     });
   };
 
@@ -80,7 +78,6 @@ class Battle extends React.Component {
         player2Img: result.avatar_url,
         showplayer2: true,
         loadingRight: false,
-        error: null,
       });
     }
   };
@@ -95,12 +92,15 @@ class Battle extends React.Component {
       layer2Img: result.avatar_url,
       showplayer2: true,
       loadingRight: false,
-      error: null,
     });
   };
 
   rightcancel = () => {
     this.setState({ showplayer2: false, loadingRight: false });
+  };
+
+  clean = () => {
+    this.setState({ error: null });
   };
 
   render() {
@@ -120,6 +120,7 @@ class Battle extends React.Component {
             type="warning"
             showIcon
             closable
+            onClose={this.clean}
           />
         )}
         <h2 style={{ textAlign: "center" }}>Instructions</h2>
