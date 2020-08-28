@@ -56,7 +56,6 @@ class Popular extends React.Component {
     const res = await getData(language, currentpage).catch((error) => {
       this.setState({
         loading: false,
-        items: items,
         error: error.data.message,
       });
     });
@@ -113,9 +112,10 @@ class Popular extends React.Component {
       <>
         {error && (
           <Alert
-            message="Warning"
+            message="Error"
+            banner
             description={error}
-            type="warning"
+            type="error"
             showIcon
             closable
           />
